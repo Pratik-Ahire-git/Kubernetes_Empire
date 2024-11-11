@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demon-pv
+spec:
+  accessModes: 
+    - ReadOnlyMany
+  capacity: 
+    storage: 1Gi
+  storageClassName: local-path
+  local:
+    path: /root/snap/storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In 
+            values:
+              - 172.30.2.2
+  persistentVolumeReclaimPolicy: Retain 
+  volumeMode: Filesystem

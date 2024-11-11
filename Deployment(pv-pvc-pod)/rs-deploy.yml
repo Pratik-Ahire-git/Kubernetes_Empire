@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: dbreplica
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      env: dev
+  template:
+    spec:
+      containers:
+        - name: dbpod
+          image: mysql:9
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: dbdata
+              mountPath: /root/snap/storage
+      volumes:
+        - name: dbdata
+          persistentVolumeClaim:
+            claimName: mypvc          
+
+
